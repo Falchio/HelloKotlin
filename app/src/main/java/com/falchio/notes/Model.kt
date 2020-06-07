@@ -1,4 +1,4 @@
-package ru.falchio.hellokotllin
+package com.falchio.notes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

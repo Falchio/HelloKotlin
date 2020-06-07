@@ -1,4 +1,4 @@
-package ru.falchio.hellokotllin
+package com.falchio.notes
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package ru.falchio.hellokotllin
+package com.falchio.notes
 
 import android.os.Bundle
 import android.widget.Button
