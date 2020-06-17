@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "829864018930",
+    "firebase_url": "https://wtf-firebase-295af.firebaseio.com",
+    "project_id": "wtf-firebase-295af",
+    "storage_bucket": "wtf-firebase-295af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829864018930:android:65a4b5649d6b928deea16b",
+        "android_client_info": {
+          "package_name": "ru.falchio.hellokotllin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829864018930-77l0el0471r9lguqmkui8ksfuf33ls7d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.falchio.notes",
+            "certificate_hash": "e0ae3957430a61e202ad2ec815a17c9d673cad2d"
+          }
+        },
+        {
+          "client_id": "829864018930-lpdr43m7g0tiv2431nb3b81dphui8cfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfRnUV2fQ_-k1BtdNalYxTIs8QXkXfTqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "829864018930-lpdr43m7g0tiv2431nb3b81dphui8cfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
