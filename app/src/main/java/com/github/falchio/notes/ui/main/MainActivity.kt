@@ -1,20 +1,34 @@
 package com.github.falchio.notes.ui.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.falchio.notes.R
+import com.firebase.ui.auth.AuthUI
 import com.github.falchio.notes.data.entity.Note
 import com.github.falchio.notes.ui.base.BaseActivity
 import com.github.falchio.notes.ui.base.BaseViewModel
 import com.github.falchio.notes.ui.note.NoteActivity
+import com.github.falchio.notes.ui.splash.SplashActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : BaseActivity <List<Note>?, MainViewState>() {
+
+    companion object{
+        fun start(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
     override val viewModel: BaseViewModel<List<Note>?, MainViewState> by lazy{
         ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
@@ -41,6 +55,27 @@ class MainActivity : BaseActivity <List<Note>?, MainViewState>() {
         data?.let {
             adapter.notes=it
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean =
+        MenuInflater(this).inflate(R.menu.main, menu).let { true }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when(item.itemId){
+            R.id.logout -> showLogoutDialog().let{true}
+            else -> false
+        }
+    fun showLogoutDialog(){
+        supportFragmentManager.findFragmentByTag(LogoutDialog.TAG) ?:
+                LogoutDialog.createInstance {  }.show(supportFragmentManager, LogoutDialog.TAG)
+    }
+
+    fun onLogout(){
+        AuthUI.getInstance().signOut(this)
+            .addOnCompleteListener{
+                startActivity(Intent(this, SplashActivity::class.java))
+                finish()
+            }
     }
 
 }

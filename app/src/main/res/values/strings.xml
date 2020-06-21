@@ -3,4 +3,9 @@
     <string name="header">Header</string>
     <string name="note_s_text">note`s text</string>
     <string name="new_note_title">New note</string>
+    <string name="logout_menu_title">Log out</string>
+    <string name="logout_title">Exit</string>
+    <string name="logout_message">Are you sure?</string>
+    <string name="logout_ok">Ok</string>
+    <string name="logout_cancel">Cancel</string>
 </resources>
