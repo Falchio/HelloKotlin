@@ -8,33 +8,42 @@ import com.github.falchio.notes.data.entity.Note
 import com.github.falchio.notes.data.model.NoteResult
 import com.github.falchio.notes.ui.base.BaseViewModel
 
+class NoteViewModel(val notesRepository: NotesRepository) : BaseViewModel<NoteViewState.Data, NoteViewState>() {
 
-class NoteViewModel : BaseViewModel<Note?, NoteViewState>() {
-    private var pendingNote: Note? = null
+    private val pendingNote: Note?
+        get() = viewStateLiveData.value?.data?.note
 
-    fun save(note:Note){
-        pendingNote = note
+
+    fun save(note: Note) {
+        viewStateLiveData.value = NoteViewState(NoteViewState.Data(note = note))
     }
 
-    fun loadNote(noteId: String){
-        NotesRepository.getNotesById(noteId).observeForever {
-            it ?: return@observeForever
-            when(it){
-                is NoteResult.Success<*> ->{
-                    viewStateLiveData.value = NoteViewState(note = it.data as? Note )
-                }
-                is NoteResult.Error ->{
-                    viewStateLiveData.value = NoteViewState(error = it.error)
-                }
+    fun loadNote(noteId: String) {
+        notesRepository.getNoteById(noteId).observeForever { result ->
+            result ?: return@observeForever
+            when (result) {
+                is NoteResult.Success<*> -> viewStateLiveData.value = NoteViewState(NoteViewState.Data(note = result.data as? Note))
+                is NoteResult.Error -> viewStateLiveData.value = NoteViewState(error = result.error)
             }
-
         }
     }
 
-    // данный метод вызывается при нажатии кнопки назад, поэтому при уходе с экрана содержимое заметки будет сохраняться
     override fun onCleared() {
         pendingNote?.let {
-            NotesRepository.saveNote(it)
+            notesRepository.saveNote(it)
         }
     }
+
+    fun deleteNote() {
+        pendingNote?.let {
+            notesRepository.deleteNote(it.id).observeForever { result ->
+                result ?: return@observeForever
+                when (result) {
+                    is NoteResult.Success<*> -> viewStateLiveData.value = NoteViewState(NoteViewState.Data(isDeleted = true))
+                    is NoteResult.Error -> viewStateLiveData.value = NoteViewState(error = result.error)
+                }
+            }
+        }
+    }
+
 }

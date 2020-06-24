@@ -14,22 +14,25 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
-    abstract val viewModel: BaseViewModel<T, S>
-    abstract val layoutRes: Int?
 
-    companion object{
-        const val RC_SIGN_IN=44462
+    companion object {
+        const val RC_SIGN_IN = 4242
     }
 
+    abstract val model: BaseViewModel<T, S>
+    abstract val layoutRes: Int?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutRes?.let { setContentView(it) }
+        layoutRes?.let {
+            setContentView(it)
+        }
+
         setSupportActionBar(toolbar)
-        viewModel.getViewState().observe(this, Observer { state ->
-            state ?: return@Observer //if (state == null) return
-            state.error?.let { error ->
-                renderError(error)
+        model.getViewState().observe(this, Observer { state ->
+            state ?: return@Observer
+            state.error?.let { e ->
+                renderError(e)
                 return@Observer
             }
             renderData(state.data)
@@ -39,16 +42,12 @@ abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
     abstract fun renderData(data: T)
 
     protected fun renderError(error: Throwable?) {
-        when (error) {
+        when(error){
             is NoAuthException -> startLogin()
-            else -> error?.message?.let { message ->
+            else ->  error?.message?.let { message ->
                 showError(message)
             }
         }
-    }
-
-    protected fun showError(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun startLogin(){
@@ -56,16 +55,26 @@ abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
-        val intent = AuthUI.getInstance().createSignInIntentBuilder()
-            .setLogo(R.drawable.ic_phone)
+        val intent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setLogo(R.drawable.android_robot)
             .setTheme(R.style.LoginTheme)
-            .setAvailableProviders(providers).build()
+            .setAvailableProviders(providers)
+            .build()
+
         startActivityForResult(intent, RC_SIGN_IN)
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode== RC_SIGN_IN && resultCode!= Activity.RESULT_OK){
+        if(requestCode == RC_SIGN_IN && resultCode != Activity.RESULT_OK){
             finish()
         }
     }
+
+
+    protected fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
 }

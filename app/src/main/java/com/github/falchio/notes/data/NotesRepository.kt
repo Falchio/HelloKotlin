@@ -1,14 +1,13 @@
 package com.github.falchio.notes.data
 
 import com.github.falchio.notes.data.entity.Note
-import com.github.falchio.notes.data.provider.FirestoreDataProvider
-import com.github.falchio.notes.data.provider.RemoteDataProvider
+import com.github.falchio.notes.data.provider.DataProvider
 
-object NotesRepository {
-    val remoteProvider = FirestoreDataProvider()
 
-    fun getNotes() = remoteProvider.subscribeAllNotes()
+class NotesRepository(val remoteProvider: DataProvider) {
+    fun getNotes() = remoteProvider.subscribeToAllNotes()
     fun saveNote(note: Note) = remoteProvider.saveNote(note)
-    fun getNotesById (id: String) = remoteProvider.getNoteById(id)
+    fun getNoteById(id: String) = remoteProvider.getNoteById(id)
+    fun deleteNote(id: String) = remoteProvider.deleteNote(id)
     fun getCurrentUser() = remoteProvider.getCurrentUser()
 }
