@@ -1,5 +1,6 @@
 package com.github.falchio.notes.ui.note
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,7 +29,8 @@ class NoteViewModel(val notesRepository: NotesRepository) : BaseViewModel<NoteVi
         }
     }
 
-    override fun onCleared() {
+    @VisibleForTesting
+    public override fun onCleared() {
         pendingNote?.let {
             notesRepository.saveNote(it)
         }
