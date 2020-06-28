@@ -4,12 +4,13 @@ import com.github.falchio.notes.data.NotesRepository
 import com.github.falchio.notes.data.errors.NoAuthException
 import com.github.falchio.notes.ui.base.BaseViewModel
 
-class SplashViewModel : BaseViewModel<Boolean?, SplashViewState>(){
-    fun requestUser(){
-        NotesRepository.getCurrentUser().observeForever {
+class SplashViewModel(val notesRepository: NotesRepository) : BaseViewModel<Boolean?, SplashViewState>() {
+
+    fun requestUser() {
+        notesRepository.getCurrentUser().observeForever {
             viewStateLiveData.value = it?.let {
                 SplashViewState(authenticated = true)
-            }?: let {
+            } ?: let {
                 SplashViewState(error = NoAuthException())
             }
         }

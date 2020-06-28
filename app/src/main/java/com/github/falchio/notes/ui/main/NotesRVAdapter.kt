@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.falchio.notes.R
+import com.github.falchio.notes.common.getColorInt
 import com.github.falchio.notes.data.entity.Note
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_note.view.*
 
-
-class NotesRVAdapter(val onItemClick: ((Note) -> Unit)? = null) //Unit используется в Kotlin вместо void, в данном месте устанавливается click listener (функция с аргументом Note)
-    : RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
+class NotesRVAdapter(val onItemClick: ((Note) -> Unit)? = null) : RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
 
     var notes: List<Note> = listOf()
         set(value) {
@@ -33,24 +33,16 @@ class NotesRVAdapter(val onItemClick: ((Note) -> Unit)? = null) //Unit испо�
 
     override fun onBindViewHolder(vh: ViewHolder, pos: Int) = vh.bind(notes[pos])
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         fun bind(note: Note) = with(itemView) {
             tv_title.text = note.title
             tv_text.text = note.text
 
-            val color = when (note.color) {
-                Note.Color.WHITE -> R.color.white
-                Note.Color.YELLOW -> R.color.yellow
-                Note.Color.GREEN -> R.color.green
-                Note.Color.BLUE -> R.color.blue
-                Note.Color.RED -> R.color.red
-                Note.Color.VIOLET -> R.color.violet
-            }
+            setBackgroundColor(note.color.getColorInt(containerView.context))
 
-            setBackgroundColor(ContextCompat.getColor(itemView.context, color))
             itemView.setOnClickListener {
-                onItemClick?.invoke(note) // здесь устанавливается лямбда из класса - class NotesRVAdapter(val onItemClick: ((Note) -> Unit)? = null)
+                onItemClick?.invoke(note)
             }
         }
     }

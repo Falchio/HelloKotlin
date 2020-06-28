@@ -1,23 +1,20 @@
 package com.github.falchio.notes.ui.splash
 
-import androidx.lifecycle.ViewModelProviders
+
 import com.github.falchio.notes.ui.base.BaseActivity
 import com.github.falchio.notes.ui.main.MainActivity
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class SplashActivity : BaseActivity<Boolean?, SplashViewState>() {
-    override val viewModel: SplashViewModel by lazy{
-        ViewModelProviders.of(this).get(SplashViewModel::class.java)
-    }
 
+    override val model: SplashViewModel by viewModel()
     override val layoutRes = null
 
     override fun onResume() {
         super.onResume()
-        viewModel.requestUser()
+        model.requestUser()
     }
-
-
 
     override fun renderData(data: Boolean?) {
         data?.takeIf { it }?.let {
@@ -29,4 +26,6 @@ class SplashActivity : BaseActivity<Boolean?, SplashViewState>() {
         MainActivity.start(this)
         finish()
     }
+
 }
+

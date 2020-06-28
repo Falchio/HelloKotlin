@@ -8,4 +8,9 @@
     <string name="logout_message">Are you sure?</string>
     <string name="logout_ok">Ok</string>
     <string name="logout_cancel">Cancel</string>
+    <string name="note_color_select">Выбрать цвет</string>
+    <string name="note_delete">Удалить</string>
+    <string name="note_delete_message">Вы уверены?</string>
+    <string name="note_delete_ok">Да</string>
+    <string name="note_delete_cancel">Нет</string>
 </resources>
