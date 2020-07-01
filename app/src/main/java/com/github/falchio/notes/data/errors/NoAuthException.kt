@@ -1,3 +1,5 @@
 package com.github.falchio.notes.data.errors
 
-class NoAuthException : Throwable()
+import java.lang.Exception
+
+class NoAuthException : Exception()

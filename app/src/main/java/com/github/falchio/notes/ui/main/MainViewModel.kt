@@ -1,5 +1,6 @@
 package com.github.falchio.notes.ui.main
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Observer
 import com.github.falchio.notes.data.NotesRepository
 import com.github.falchio.notes.data.entity.Note
@@ -28,7 +29,8 @@ class MainViewModel(notesRepository: NotesRepository) : BaseViewModel<List<Note>
         repositoryNotes.observeForever(notesObserver)
     }
 
-    override fun onCleared() {
+    @VisibleForTesting
+    public override fun onCleared() {
         repositoryNotes.removeObserver(notesObserver)
         super.onCleared()
     }
