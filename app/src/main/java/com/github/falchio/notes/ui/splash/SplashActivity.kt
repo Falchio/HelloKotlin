@@ -6,7 +6,7 @@ import com.github.falchio.notes.ui.main.MainActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class SplashActivity : BaseActivity<Boolean?, SplashViewState>() {
+class SplashActivity : BaseActivity<Boolean?>() {
 
     override val model: SplashViewModel by viewModel()
     override val layoutRes = null
