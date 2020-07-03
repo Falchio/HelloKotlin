@@ -6,8 +6,8 @@ import com.github.falchio.notes.data.provider.DataProvider
 
 class NotesRepository(val remoteProvider: DataProvider) {
     fun getNotes() = remoteProvider.subscribeToAllNotes()
-    fun saveNote(note: Note) = remoteProvider.saveNote(note)
-    fun getNoteById(id: String) = remoteProvider.getNoteById(id)
-    fun deleteNote(id: String) = remoteProvider.deleteNote(id)
-    fun getCurrentUser() = remoteProvider.getCurrentUser()
+    suspend fun saveNote(note: Note) = remoteProvider.saveNote(note)
+    suspend fun getNoteById(id: String) = remoteProvider.getNoteById(id)
+    suspend fun deleteNote(id: String) = remoteProvider.deleteNote(id)
+    suspend fun getCurrentUser() = remoteProvider.getCurrentUser()
 }

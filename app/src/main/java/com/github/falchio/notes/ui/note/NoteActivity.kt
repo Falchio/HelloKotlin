@@ -8,22 +8,16 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import com.falchio.notes.R
 import com.github.falchio.notes.common.getColorInt
 import com.github.falchio.notes.data.entity.Note
-import com.github.falchio.notes.data.entity.Note.Color.*
 import com.github.falchio.notes.ui.base.BaseActivity
-import com.github.falchio.notes.ui.base.BaseViewModel
-import com.github.falchio.notes.ui.base.BaseViewState
-import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.activity_note.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
+class NoteActivity : BaseActivity<NoteData>() {
 
     companion object {
         private val EXTRA_NOTE = NoteActivity::class.java.name + "extra.NOTE"
@@ -65,7 +59,7 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
         initView()
     }
 
-    override fun renderData(data: NoteViewState.Data) {
+    override fun renderData(data: NoteData) {
         if(data.isDeleted) finish()
         this.note = data.note
         initView()
